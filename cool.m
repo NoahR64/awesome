@@ -6,14 +6,15 @@ rightMot = 'A';
 grabMot = 'C';
 colSen = 3;
 gyro = 4;
-moveSpeed = 60;
+moveSpeed = 56.5;
 moveTime = 1.4;
-turnSpeed = 60;
-turnTime = 0.4;
+turnSpeed = 53;
+turnTime = 0.6;
 grabSpeed = 15;
-correcter = 1.048;
-correcter2 = 0.935;
-
+correcter = 1.0;
+correcter2 = 1.0235;
+correcter3 = 1.015;
+global key;
 
 brick.SetColorMode(colSen, 2);
 InitKeyboard();
@@ -22,9 +23,9 @@ driving = true;
 while driving
     pause(0.5);
     %determine the direction to go left -> forward -> right -> back
-    %rotate right
-            brick.MoveMotor(leftMot, -turnSpeed*correcter);
-            brick.MoveMotor(rightMot, turnSpeed);
+    %rotate left
+            brick.MoveMotor(leftMot, -turnSpeed*correcter*correcter3);
+            brick.MoveMotor(rightMot, turnSpeed*correcter3);
             pause(turnTime);
             brick.MoveMotor(leftMot+rightMot, 0);
             pause(0.5)
@@ -120,12 +121,12 @@ while driving
                     brick.MoveMotor(rightMot, -30);
                     pause(0.1);
                 case 'leftarrow'
-                    brick.MoveMotor(leftMot, -10);
-                    brick.MoveMotor(rightMot, 10);
+                    brick.MoveMotor(leftMot, -14);
+                    brick.MoveMotor(rightMot, 14);
                     pause(0.1);
                 case 'rightarrow'
-                    brick.MoveMotor(leftMot, 10);
-                    brick.MoveMotor(rightMot, -10);
+                    brick.MoveMotor(leftMot, 14);
+                    brick.MoveMotor(rightMot, -14);
                     pause(0.1);
                 case 'z'
                     brick.MoveMotor(grabMot, grabSpeed);
@@ -140,10 +141,6 @@ while driving
     end
     if(rgb == 3) %if it's in end area (currently green), stop
         pause(0.25);
-        brick.playTone(100, 300, 250);
-        pause(.25);
-        brick.playTone(100, 100, 250);
-        pause(.25);
         driving=false;
     end
 end
